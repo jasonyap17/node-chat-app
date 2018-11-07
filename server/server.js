@@ -17,11 +17,6 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('New user connected.');
 
-    socket.emit('newMessage', {
-        from: 'anna',
-        text: 'behave',
-        createdAt: new Date().toString()
-    });
 
 
     socket.on('disconnect', () => {
@@ -29,12 +24,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage', (data) => {
-        // socket.emit('newMessage', {
-        //     from: data.from,
-        //     text: data.text,
-        //     createdAt: new Date().toString()
-        // });
         console.log(data);
+        io.emit('newMessage', {
+            from: data.from,
+            text: data.text,
+            createdAt: new Date().getTime()
+        });
     });
 });
 
